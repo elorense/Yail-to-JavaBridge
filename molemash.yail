@@ -1,0 +1,108 @@
+#|
+$Source $Yail
+|#
+
+(define-form appinventor.ai_test.molemash.Screen1 Screen1)
+(require <com.google.youngandroid.runtime>)
+(def energy 100)
+
+;;; Screen1
+(do-after-form-creation (set-and-coerce-property! 'Screen1 'Title "MoleMash" 'text)
+)
+;;; Canvas1
+(add-component Screen1 Canvas Canvas1 (set-and-coerce-property! 'Canvas1 'BackgroundColor #xFF888888 'number)
+(set-and-coerce-property! 'Canvas1 'Height 300 'number)
+(set-and-coerce-property! 'Canvas1 'Width -2 'number)
+)
+(define-event Canvas1 Touched( x1  y1  touchedSprite )
+ (set-this-form)
+ (if (call-yail-primitive > (*list-for-runtime* (get-var energy)
+ 0)
+ '( number number)
+ ">")
+ (begin (if (lexical-value touchedSprite)
+ (begin (set-and-coerce-property! 'ScoreLabel 'Text (call-yail-primitive + (*list-for-runtime* (get-property 'ScoreLabel 'Text)
+ 1)
+ '( number number)
+ "+")
+ 'text)
+
+)
+ (begin (set-var! energy  (call-yail-primitive - (*list-for-runtime* (get-var energy)
+ 10)
+ '( number number)
+ "\u2212")
+)
+
+(set-and-coerce-property! 'EnergyLabel 'Width (get-var energy)
+ 'number)
+
+(if (call-yail-primitive <= (*list-for-runtime* (get-var energy)
+ 0)
+ '( number number)
+ "<=")
+ (begin (call-component-method 'TextToSpeech1 'Speak (*list-for-runtime* "It's all over buddy")
+ '( text)
+)
+
+(set-and-coerce-property! 'Clock1 'TimerEnabled #f 'boolean)
+
+)
+)
+
+)
+)
+
+)
+)
+
+)
+;;; MoleSprite
+(add-component Canvas1 ImageSprite MoleSprite (set-and-coerce-property! 'MoleSprite 'Picture "mole.png" 'text)
+(set-and-coerce-property! 'MoleSprite 'X 58 'number)
+(set-and-coerce-property! 'MoleSprite 'Y 51 'number)
+)
+;;; HorizontalArrangement1
+(add-component Screen1 HorizontalArrangement HorizontalArrangement1 )
+;;; Label1
+(add-component HorizontalArrangement1 Label Label1 (set-and-coerce-property! 'Label1 'FontSize 24.0 'number)
+(set-and-coerce-property! 'Label1 'Text "Score:" 'text)
+)
+;;; ScoreLabel
+(add-component HorizontalArrangement1 Label ScoreLabel (set-and-coerce-property! 'ScoreLabel 'FontSize 24.0 'number)
+(set-and-coerce-property! 'ScoreLabel 'Text "0" 'text)
+)
+;;; EnergyLabel
+(add-component Screen1 Label EnergyLabel (set-and-coerce-property! 'EnergyLabel 'BackgroundColor #xFF0000FF 'number)
+(set-and-coerce-property! 'EnergyLabel 'Height 20 'number)
+(set-and-coerce-property! 'EnergyLabel 'Width 100 'number)
+)
+;;; Clock1
+(add-component Screen1 Clock Clock1 (set-and-coerce-property! 'Clock1 'TimerInterval 2000 'number)
+)
+(define-event Clock1 Timer()
+ (set-this-form)
+ (call-component-method 'MoleSprite 'MoveTo (*list-for-runtime* (call-yail-primitive random-integer (*list-for-runtime* 1 (call-yail-primitive - (*list-for-runtime* (get-property 'Canvas1 'Width)
+ (get-property 'MoleSprite 'Width)
+)
+ '( number number)
+ "\u2212")
+)
+ '( number number)
+ "random integer")
+ (call-yail-primitive random-integer (*list-for-runtime* 1 (call-yail-primitive - (*list-for-runtime* (get-property 'Canvas1 'Height)
+ (get-property 'MoleSprite 'Height)
+)
+ '( number number)
+ "\u2212")
+)
+ '( number number)
+ "random integer")
+)
+ '( number number)
+)
+
+)
+;;; TextToSpeech1
+(add-component Screen1 TextToSpeech TextToSpeech1 )
+(init-runtime)
