@@ -8,3 +8,6 @@ This can be found in the YailParser.jj file, the classes it generates after comp
 - AppInventorProject.java is the driver class
 - Program expects a yail file as input
 - Sample Yail file included (molemash.yail)
+
+
+Live version is up at http://usfaicg.appspot.com/
