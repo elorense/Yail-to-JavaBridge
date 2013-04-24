@@ -11,3 +11,6 @@ This can be found in the YailParser.jj file, the classes it generates after comp
 
 
 Live version is up at http://usfaicg.appspot.com/
+
+Parser files can be found in: src/org/translator/parser
+Translator files can be found in: src/org/translator/java
